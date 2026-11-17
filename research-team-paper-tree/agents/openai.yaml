@@ -1,0 +1,4 @@
+interface:
+  display_name: "研究组论文树"
+  short_description: "从一篇论文追溯各通讯作者的研究组，整理分支论文和团队资料"
+  default_prompt: "使用 $research-team-paper-tree，根据我提供的论文追踪每位通讯作者的研究组，整理各组的论文树和团队简介。"
