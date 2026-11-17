@@ -1,4 +1,3 @@
-# research-team-paper-tree
 # 研究组论文树 · Research Team Paper Tree
 
 **中文**
