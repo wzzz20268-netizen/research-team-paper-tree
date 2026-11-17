@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="$lang">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>$title</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #183333;
+      --muted: #47615d;
+      --teal: #0e635b;
+      --line: #afc6bd;
+      --paper: #fffefa;
+      --edge: #895623;
+      font: 17px/1.65 "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2e9; color: var(--ink); overflow-wrap: anywhere; }
+    main, .header-inner { width: min(1080px, 94%); margin: auto; }
+    header { background: #133c39; color: #f8f9ee; padding: clamp(1.8rem, 6vw, 4.3rem) 0; }
+    h1 { margin: 0 0 .75rem; font-size: clamp(1.8rem, 5vw, 3.1rem); line-height: 1.25; letter-spacing: -.025em; }
+    h2 { margin: 0 0 1rem; font-size: clamp(1.35rem, 3vw, 1.8rem); line-height: 1.4; }
+    h3 { margin: 0 0 .4rem; font-size: 1rem; }
+    p { margin: .5rem 0 1rem; max-width: 78ch; }
+    p:last-child { margin-bottom: 0; }
+    a { color: var(--teal); text-underline-offset: .2em; }
+    header a { color: #e0f1b0; }
+    header p { max-width: 70ch; }
+    a:focus-visible, summary:focus-visible { outline: 3px solid #af4f10; outline-offset: 4px; border-radius: 3px; }
+    main > section { margin: clamp(1.7rem, 4vw, 3.5rem) 0; }
+    details { min-width: 0; }
+    summary { cursor: pointer; padding: .75rem 1rem; font-weight: 650; }
+    summary::marker { color: var(--teal); }
+    .reading { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: .8rem; list-style-position: inside; }
+    .reading li { padding: .85rem 1rem; border: 1px solid var(--line); background: var(--paper); border-radius: 10px; }
+    .reading p { margin: .3rem 0 0; color: var(--muted); font-size: .92rem; }
+    .seed-card { display: block; width: fit-content; max-width: 100%; margin: 0 auto; padding: .7rem 1.4rem; text-align: center; background: #133c39; color: #f8f9ee; border-radius: 10px; font-weight: 650; }
+    .seed-card .badge { margin: 0 .4rem 0 0; color: #153a2f; background: #dce9b6; }
+    .group { position: relative; padding: 1.15rem 1rem; border: 1px solid var(--line); background: #f8faf4; border-radius: 14px; margin: 1.35rem 0 0; }
+    .seed-card + .group::before, .group-map::before { content: ""; position: absolute; height: 1.4rem; border-left: 2px solid var(--teal); left: 50%; top: -1.4rem; }
+    .group-map { position: relative; margin-top: 1.4rem; }
+    .group > h3 { text-align: center; }
+    .branch-map { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: .7rem; list-style: none; padding: 1rem 0 0; margin: .75rem 0 1.2rem; border-top: 2px solid var(--line); }
+    .branch-map li { position: relative; display: flex; }
+    .branch-map li::before { content: ""; position: absolute; top: -1.05rem; height: 1rem; left: 50%; border-left: 2px solid var(--line); }
+    .branch-map a { flex: 1; padding: .7rem; text-decoration: none; color: var(--ink); background: #e1eee3; border: 1px solid var(--line); border-radius: 8px; }
+    .branch-map a:hover { border-color: var(--teal); text-decoration: underline; }
+    .branch-kind { font-size: .78rem; color: var(--teal); display: inline-block; margin-right: .6rem; }
+    .branch-map .branch-kind { display: block; }
+    .branch, .section-detail { margin-top: .6rem; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; scroll-margin-top: .7rem; }
+    .branch-body { padding: 0 1rem 1rem; }
+    .timeline { border-left: 2px solid var(--line); margin: 1.2rem 0 0 .3rem; padding-left: 1rem; }
+    .paper { position: relative; margin: .65rem 0; scroll-margin-top: .65rem; }
+    .timeline > .paper::before { content: ""; position: absolute; left: -1.32rem; top: 1.15rem; width: .5rem; height: .5rem; border-radius: 50%; background: var(--teal); }
+    .paper-detail { border: 1px solid #c5d5cb; background: #f2f6ee; border-radius: 8px; }
+    .date, .badge { font-size: .76rem; color: #1f554e; }
+    .date { font-variant-numeric: tabular-nums; }
+    .paper-title { display: block; margin-top: .15rem; }
+    .badge { display: inline-block; padding: .05rem .45rem; border-radius: 4px; background: #dcece0; margin: 0 .35rem; }
+    .external { background: #f2e3cb; color: #684318; }
+    .paper-body, .edge-body { padding: 0 1rem 1rem; }
+    .metadata, .original { color: var(--muted); font-size: .87rem; }
+    .original { font-style: italic; }
+    dl { margin: .5rem 0; }
+    dt { font-weight: 650; font-size: .85rem; }
+    dd { margin: 0 0 .7rem; }
+    .links { color: var(--muted); font-size: .87rem; }
+    .links:empty, dl:empty { display: none; }
+    .relationship { border-left: 2px dashed var(--edge); margin: 0 0 0 .55rem; padding: .45rem 0 .05rem .8rem; position: relative; }
+    .relationship::before { content: ""; position: absolute; border-top: 2px dashed var(--edge); width: .8rem; top: 1.55rem; left: 0; }
+    .relationship > details { border: 1px solid #d8bd98; border-radius: 7px; background: #fff9ed; }
+    .relationship > details > summary { font-size: .87rem; }
+    .relationship .badge { margin-left: 0; }
+    .note { margin: .6rem .9rem 1rem; }
+    .note + .note { padding-top: .85rem; border-top: 1px solid var(--line); }
+    .paper:target > .paper-detail, .branch:target { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal); }
+    @media (max-width: 520px) { :root { font-size: 16px; } .group { padding: .85rem .55rem; } .branch-body { padding-left: .55rem; padding-right: .55rem; } summary { padding-left: .65rem; } }
+  </style>
+</head>
+<body>
+  <header><div class="header-inner"><h1>$title</h1>$overview<p><a href="$md_file">$md_label</a></p></div></header>
+  <main>
+    $reading
+    <section>
+      <h2>$tree</h2>
+      <a class="seed-card" href="#paper-$seed_id"><span class="badge">$seed_label</span>$seed_title</a>
+      $group_map
+      $seed_paper
+      $groups
+    </section>
+    <section><details class="section-detail"><summary>$clues_label</summary>$clues</details></section>
+    <section><details class="section-detail"><summary>$coverage_label</summary>$coverage</details></section>
+  </main>
+  <script>
+    function revealTarget() {
+      const id = location.hash.slice(1);
+      const target = id && document.getElementById(id);
+      if (!target) return;
+      for (let node = target; node; node = node.parentElement) {
+        if (node.tagName === "DETAILS") node.open = true;
+      }
+      const paper = target.querySelector(":scope > .paper-detail");
+      if (paper) paper.open = true;
+      target.scrollIntoView({ block: "start" });
+      const focusTarget = target.tagName === "DETAILS" ? target.firstElementChild : target;
+      focusTarget.focus({ preventScroll: true });
+    }
+    addEventListener("hashchange", revealTarget);
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest("a[href^='#']");
+      if (link && link.hash === location.hash) requestAnimationFrame(revealTarget);
+    });
+    revealTarget();
+  </script>
+</body>
+</html>
